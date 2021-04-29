@@ -17,6 +17,7 @@ public class PaperDetail implements Serializable {
     private String publicID;
     private Integer download;
     private String email;
+    private String fileUrl;
 
     public void absorb(Paper paper, Author author, Institute institute) {
         this.setPname(paper.getPname());
@@ -26,6 +27,7 @@ public class PaperDetail implements Serializable {
         this.setCategory(paper.getCategory());
         this.setDownload(paper.getDownload());
         this.setEmail(author.getEmail());
+        this.setFileUrl(paper.getFileUrl());
     }
 
 }

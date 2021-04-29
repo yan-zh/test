@@ -67,6 +67,9 @@
             <if test="common != null">
                 common_one = #{common},
             </if>
+            <if test="common == null">
+                common_one = #{isPass},
+            </if>
         </set>
         where pap_id = #{pap_id}
     </update>
@@ -77,6 +80,9 @@
             <if test="common != null">
                 common_two = #{common},
             </if>
+            <if test="common == null">
+                common_two = #{isPass},
+            </if>
         </set>
         where pap_id = #{pap_id}
     </update>
@@ -86,6 +92,9 @@
         <set>
             <if test="common != null">
                 common_three = #{common},
+            </if>
+            <if test="common == null">
+                common_three = #{isPass},
             </if>
         </set>
         where pap_id = #{pap_id}

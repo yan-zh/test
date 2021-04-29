@@ -22,18 +22,18 @@ public class CertifyServiceImpl extends ServiceImpl<CertifyMapper, Certify> impl
 
 
     @Override
-    public boolean updateCertify_one(String common) {
-        return certifyMapper.updateCertify_one(common)>0;
+    public boolean updateCertify_one(String common, String isPass) {
+        return certifyMapper.updateCertify_one(common, isPass)>0;
     }
 
     @Override
-    public boolean updateCertify_two(String common) {
-        return certifyMapper.updateCertify_two(common)>0;
+    public boolean updateCertify_two(String common, String isPass) {
+        return certifyMapper.updateCertify_two(common, isPass)>0;
     }
 
     @Override
-    public boolean updateCertify_three(String common) {
-        return certifyMapper.updateCertify_three(common)>0;
+    public boolean updateCertify_three(String common, String isPass) {
+        return certifyMapper.updateCertify_three(common, isPass)>0;
     }
 
     @Override

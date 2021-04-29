@@ -107,7 +107,7 @@ public class ReviewerController {
     public Result reviewArrangement_reviewer(Integer rev_id, Integer currentPage, Integer numEachPage, String keywords, Boolean timeOrder){
 
 
-        //get the ************************还没写完注释
+        //get the paper information according to the input parameter
         IPage<ReturnPaper> iPage = new Page<>(currentPage,numEachPage);
         IPage<ReturnPaper> iPage1;
 
@@ -116,6 +116,8 @@ public class ReviewerController {
         if(keywords!=null) iPage1 = certifyMapper.getReturnPaperByReviewerIdAndTimeAndKeyword(iPage,rev_id,order,keywords);
         else iPage1 = certifyMapper.getReturnPaperByReviewerIdAndTime(iPage,rev_id,order);
 
+
+        //generate the name string using ";" to separate
         List<ReturnPaper> returnPaperList = iPage1.getRecords();
 
         for(int i=0;i<returnPaperList.size();i++){
@@ -129,11 +131,10 @@ public class ReviewerController {
                 name = name.concat(";");
                 name = name.concat(n2);
 
-            }
-
-            if(n3!=null){
-                name = name.concat(";");
-                name = name.concat(n3);
+                if(n3!=null){
+                    name = name.concat(";");
+                    name = name.concat(n3);
+                }
             }
 
             thePaper.setAuthorName(name);
@@ -141,12 +142,12 @@ public class ReviewerController {
             returnPaperList.set(i,thePaper);
         }
 
+        //put the result back to Page instance
         iPage1.setRecords(returnPaperList);
 
         return Result.succ(iPage1);
-
-
     }
+
 
 
     //reviewer添加评论和评审结果

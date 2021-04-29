@@ -15,9 +15,9 @@ public interface CertifyService extends IService<Certify> {
     /*
        Update Certify information into databases
         */
-    public boolean updateCertify_one(String common);
-    public boolean updateCertify_two(String common);
-    public boolean updateCertify_three(String common);
+    public boolean updateCertify_one(String common, String isPass);
+    public boolean updateCertify_two(String common, String isPass);
+    public boolean updateCertify_three(String common, String isPass);
 
     public Certify getCertify(Integer pap_id);
 }

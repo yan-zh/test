@@ -36,12 +36,13 @@ public class CertifyController {
         Integer rev_id = certifyDto.getRev_id();
         Integer pap_id = certifyDto.getPap_id();
         String common = certifyDto.getCommon();
+        String isPass = certifyDto.getIsPass().toString();
 
         Certify certify = certifyService.getCertify(pap_id);
 
         if (rev_id == certify.getRevOne()) {
-            certifyService.updateCertify_one(common);
-            boolean flag = certifyService.updateCertify_one(common);
+            certifyService.updateCertify_one(common, isPass);
+            boolean flag = certifyService.updateCertify_one(common, isPass);
             if (flag) {
                 jsonObject.put("certify", 400);
                 jsonObject.put("message", "Update Successfully");
@@ -49,8 +50,8 @@ public class CertifyController {
             }
         }
         if (rev_id == certify.getRevTwo()) {
-            certifyService.updateCertify_two(common);
-            boolean flag = certifyService.updateCertify_two(common);
+            certifyService.updateCertify_two(common, isPass);
+            boolean flag = certifyService.updateCertify_two(common, isPass);
             if (flag) {
                 jsonObject.put("certify", 400);
                 jsonObject.put("message", "Update Successfully");
@@ -58,8 +59,8 @@ public class CertifyController {
             }
         }
         if (rev_id == certify.getRevThree()) {
-            certifyService.updateCertify_three(common);
-            boolean flag = certifyService.updateCertify_three(common);
+            certifyService.updateCertify_three(common, isPass);
+            boolean flag = certifyService.updateCertify_three(common, isPass);
             if (flag) {
                 jsonObject.put("certify", 400);
                 jsonObject.put("message", "Update Successfully");

@@ -32,9 +32,9 @@ public interface CertifyMapper extends BaseMapper<Certify> {
      * @param common
      * @return
      */
-    public int updateCertify_one(String common);
-    public int updateCertify_two(String common);
-    public int updateCertify_three(String common);
+    public int updateCertify_one(String common, String isPass);
+    public int updateCertify_two(String common, String isPass);
+    public int updateCertify_three(String common, String isPass);
 
     /**
      * To get the certify information
