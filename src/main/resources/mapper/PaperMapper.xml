@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.mapper.PaperMapper">
+
+    <select id="getPaperList" resultType="com.example.demo.entity.normal.MyPaper">
+        SELECT paper_id, aname, pname, abstracts FROM website.author inner join website.paper where autid_one=aut_id
+    </select>
+
+
+    <select id="searchPaper" resultType="com.example.demo.entity.normal.MyPaper">
+        SELECT paper_id, aname, pname, abstracts FROM website.author inner join website.paper where autid_one=aut_id and ${select} like CONCAT('%',#{input},'%')
+    </select>
+
+    <select id="getPaperListForShow" resultType="com.example.demo.entity.FirstPagePDisplayAndSearch.PaperForShow">
+        select c.*, certify.public_id from (SELECT paper.paper_id, paper.pCreateTime, paper.pname, author.aname as autOne, author2.aname as autTwo, author3.aname as autThree, paper.pabstract, paper.keyword, paper.category FROM ((paper left join author on (paper.autid_one=author.aut_id)) left join author as author2 on (paper.autid_two=author2.aut_id)) left join author as author3 on paper.autid_three=author3.aut_id) as c left join certify on c.paper_id=certify.pap_id
+    </select>
+
+    <select id="searchPaperForShow" resultType="com.example.demo.entity.FirstPagePDisplayAndSearch.PaperForShow">
+        select c.*, certify.public_id from (SELECT paper.paper_id, paper.pCreateTime, paper.pname, author.aname as autOne, author2.aname as autTwo, author3.aname as autThree, paper.pabstract, paper.keyword, paper.category FROM ((paper left join author on (paper.autid_one=author.aut_id)) left join author as author2 on (paper.autid_two=author2.aut_id)) left join author as author3 on paper.autid_three=author3.aut_id where ${select} like CONCAT('%',#{input},'%')) as c left join certify on c.paper_id=certify.pap_id
+    </select>
+
+
+    <select id="searchPaperByNameForShow" resultType="com.example.demo.entity.FirstPagePDisplayAndSearch.PaperForShow">
+
+        select c.*, certify.public_id
+        from (SELECT paper.paper_id, paper.pCreateTime, paper.pname, author.aname as autOne, author2.aname as autTwo, author3.aname as autThree, paper.pabstract, paper.keyword, paper.category
+        FROM ((paper left join author on (paper.autid_one=author.aut_id))
+        left join author as author2 on (paper.autid_two=author2.aut_id))
+        left join author as author3 on paper.autid_three=author3.aut_id
+        where autid_one in (select aut_id from author where aname like  CONCAT('%',#{name},'%')) or autid_two in (select aut_id from author where aname like  CONCAT('%',#{name},'%')) or autid_three in (select aut_id from author where aname like  CONCAT('%',#{name},'%')) ) as c
+        left join certify on c.paper_id=certify.pap_id
+
+    </select>
+
+    <select id="getPaperByPaperId" resultType="com.example.demo.entity.normal.Paper">
+        select * from website.paper where paper_id=#{id}
+    </select>
+
+
+    <select id="getPaperByAutId" resultType="com.example.demo.entity.normal.Paper">
+        select * from paper where (autid_one=#{autId} or autid_two=#{autId} or autid_three=#{autId})
+    </select>
+
+
+
+    <select id="getPaperByAutIdATimeAKeyword" resultType="com.example.demo.entity.normal.Paper">
+        select * from paper where (autid_one=#{autId} or autid_two=#{autId} or autid_three=#{autId}) and keyword like CONCAT('%',#{keyword},'%') order by pCreateTime ${order}
+    </select>
+
+
+    <select id="getPaperByAutIdATime" resultType="com.example.demo.entity.normal.Paper">
+        select * from paper where (autid_one=#{autId} or autid_two=#{autId} or autid_three=#{autId}) order by pCreateTime ${order}
+    </select>
+
+
+
+
+    <insert id="insertPaper" parameterType="com.example.demo.entity.normal.Paper">
+        insert into website.paper
+        <trim prefix="(" suffix = ")" suffixOverrides=",">
+            <if test=" paperId != null">
+                paper_id,
+            </if>
+
+            <if test="pname != null">
+                pname,
+            </if>
+            <if test="keyWord != null">
+                keyword,
+            </if>
+            <if test="category != null">
+                category,
+            </if>
+            <if test="abstracts != null">
+                pabstract,
+            </if>
+            <if test="biname != null">
+                biname,
+            </if>
+            <if test="autidOne != null">
+                autid_one,
+            </if>
+            <if test="autidTwo != null">
+                autid_two,
+            </if>
+            <if test="autidThree != null">
+                autid_three,
+            </if>
+            <if test="fileUrl != null">
+                file_url,
+            </if>
+            pCreateTime,
+            <if test="download != null">
+                download,
+            </if>
+        </trim>
+        <trim prefix=" values (" suffix = ")" suffixOverrides=",">
+            <if test="paperId != null">
+                #{paperId},
+            </if>
+            <if test="pname != null">
+                #{pname},
+            </if>
+            <if test="keyWord != null">
+                #{keyWord},
+            </if>
+            <if test="category != null">
+                #{category},
+            </if>
+            <if test="abstracts != null">
+                #{abstracts},
+            </if>
+            <if test="biname != null">
+                #{biname},
+            </if>
+            <if test="autidOne != null">
+                #{autidOne},
+            </if>
+            <if test="autidTwo != null">
+                #{autidTwo},
+            </if>
+            <if test="autidThree != null">
+                #{autidThree},
+            </if>
+            <if test="fileUrl != null">
+                #{fileUrl},
+            </if>
+            now(),
+            <if test="download != null">
+                #{download},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="updatePaper" parameterType="com.example.demo.entity.normal.Paper">
+        update website.paper
+        <set>
+            <if test="paperId != null">
+                paper_id = #{paperId},
+            </if>
+            <if test="pname != null">
+                pname = #{pname},
+            </if>
+            <if test="keyWord != null">
+                keyword = #{keyWord},
+            </if>
+            <if test="category != null">
+                category = #{category},
+            </if>
+            <if test="abstracts != null">
+                pabstract = #{abstracts},
+            </if>
+            <if test="biname != null">
+                biname = #{biname},
+            </if>
+            <if test="autidOne != null">
+                autid_one = #{autidOne},
+            </if>
+            <if test="autidTwo != null">
+                autid_two = #{autidTwo},
+            </if>
+            <if test="autidThree != null">
+                autid_three = #{autidThree},
+            </if>
+            <if test="fileUrl != null">
+                file_url = #{fileUrl},
+            </if>
+            pCreateTime = now(),
+            <if test="download != null">
+                download = #{download},
+            </if>
+        </set>
+        where paper_id = #{paperId}
+    </update>
+
+    <insert id="reviewerAllocate" parameterType="com.example.demo.entity.normal.Paper">
+        insert into certify (uni_id,pap_id,rev_one, rev_two, rev_three)
+        select (select ins_id from website.author where website.author.ins_id = #{aut_id}), #{paperId},a.rev_id as rev_one, b.rev_id as rev_two, c.rev_id as rev_three from (SELECT * FROM website.reviewer where website.reviewer.rcategory = #{category} order by rand()) as a ,(SELECT * FROM website.reviewer where website.reviewer.rcategory = #{category} order by rand()) as b,(SELECT * FROM website.reviewer where website.reviewer.rcategory = #{category} order by rand()) as c where a.rev_id!=b.rev_id and a.rev_id!=c.rev_id and b.rev_id!=c.rev_id limit 1;
+
+    </insert>
+
+
+</mapper>

@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.mapper.UserMapper">
+
+    <select id="getUserByUName" resultType="com.example.demo.entity.normal.User">
+        SELECT user_id, uname, password, rname FROM user WHERE uname=#{uname}
+    </select>
+
+    <select id="getUserByAutId" resultType="com.example.demo.entity.normal.User">
+        SELECT * FROM user WHERE aut_id=#{id}
+    </select>
+
+
+
+
+    <select id="verifyPassword" resultType="java.lang.Integer">
+        select count(*) from user where uname = #{username} and password = #{password}
+
+    </select>
+
+    <select id="userInfo" resultType="com.example.demo.entity.normal.User">
+        select * from user where uname =  #{username} and password = #{password}
+    </select>
+
+<!--    <insert id="insertUser" parameterType="com.example.demo.entity.normal.User">-->
+<!--        insert into user-->
+<!--        <trim prefix="(" suffix = ")" suffixOverrides=",">-->
+<!--            <if test=" username != null">-->
+<!--                uname,-->
+<!--            </if>-->
+<!--            <if test="password != null">-->
+<!--                password,-->
+<!--            </if>-->
+<!--            <if test="rname != null">-->
+<!--                rname,-->
+<!--            </if>-->
+<!--            <if test="rtype != null">-->
+<!--                rkey,-->
+<!--            </if>-->
+<!--            <if test="firstname != null">-->
+<!--                firstname,-->
+<!--            </if>-->
+<!--            <if test="lastname != null">-->
+<!--                lastname,-->
+<!--            </if>-->
+
+<!--        </trim>-->
+<!--        <trim prefix=" values (" suffix = ")" suffixOverrides=",">-->
+<!--            <if test="username != null">-->
+<!--                #{username},-->
+<!--            </if>-->
+<!--            <if test="password != null">-->
+<!--                #{password},-->
+<!--            </if>-->
+<!--            <if test="password != null">-->
+<!--                #{password},-->
+<!--            </if>-->
+<!--            <if test="rname != null">-->
+<!--                #{rname},-->
+<!--            </if>-->
+<!--            <if test="rtype != null">-->
+<!--                #{rtype},-->
+<!--            </if>-->
+<!--            <if test="firstname != null">-->
+<!--                #{firstname},-->
+<!--            </if>-->
+<!--            <if test="lastname != null">-->
+<!--                #{lastname},-->
+<!--            </if>-->
+<!--        </trim>-->
+<!--    </insert>-->
+
+
+    <insert id="insertUser" parameterType="com.example.demo.entity.normal.User">
+        insert into website.user
+        <trim prefix="(" suffix = ")" suffixOverrides=",">
+            uname,
+            password,
+            lastname,
+            firstname,
+            email,
+            tel,
+            rname,
+        </trim>
+
+        <trim prefix=" values (" suffix = ")" suffixOverrides=",">
+            #{uname},
+            #{password},
+            #{lastname},
+            #{firstname},
+            #{email},
+            #{tel},
+            #{rname},
+        </trim>
+    </insert>
+
+    <insert id="insertAuthor" parameterType="com.example.demo.entity.normal.User">
+        insert into website.author
+        <trim prefix="(" suffix = ")" suffixOverrides=",">
+            aname,
+            ins_id,
+            tel,
+            email,
+        </trim>
+
+        <trim prefix=" values (" suffix = ")" suffixOverrides=",">
+            #{uname},
+            #{instituteID},
+            #{tel},
+            #{email},
+        </trim>
+    </insert>
+
+    <insert id="insertReviewer" parameterType="com.example.demo.entity.normal.User">
+        insert into website.reviewer
+        <trim prefix="(" suffix = ")" suffixOverrides=",">
+            rname,
+            rev_email,
+            ins_id
+        </trim>
+
+        <trim prefix=" values (" suffix = ")" suffixOverrides=",">
+            #{uname},
+            #{email},
+            #{instituteID},
+        </trim>
+    </insert>
+
+</mapper>

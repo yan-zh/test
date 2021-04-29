@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.mapper.InstituteMapper">
+
+    <select id="getInstituteById" resultType="com.example.demo.entity.normal.Institute">
+        select * from institute where ins_id=#{id}
+    </select>
+
+    <select id="getInstituteByVagueName" resultType="com.example.demo.entity.normal.Institute">
+        select * from institute where iname like CONCAT('%',#{likeName},'%')
+    </select>
+
+
+
+    <select id="getInstituteByNameAndUniId" resultType="com.example.demo.entity.normal.Institute">
+        select * from institute where iname like CONCAT('%',#{likeName},'%') and uni_id=#{universityID}
+    </select>
+
+</mapper>

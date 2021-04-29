@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.mapper.CertifyMapper">
+
+    <select id="getCertifyByPaperId" resultType="com.example.demo.entity.normal.Certify">
+        select * from certify where pap_id=#{id}
+    </select>
+
+    <select id="getCertifyByReviewerId" resultType="com.example.demo.entity.normal.Certify">
+        select * from certify where (rev_one=#{id} or rev_two=#{id} or rev_three=#{id})
+    </select>
+
+
+
+    <select id="getReturnPaperByReviewerIdAndTimeAndKeyword" resultType="com.example.demo.entity.reviewerArrangement_reviewer.ReturnPaper">
+        with basic as (
+        select certify.public_id, b.*
+        from (select *
+              from paper
+              where paper_id in (SELECT pap_id FROM certify where rev_one=#{reviewerId} or rev_two=#{reviewerId} or rev_three=#{reviewerId})) as b
+              left join
+              certify on b.paper_id=certify.pap_id
+        )
+
+        select author3.paper_id as papId,author3.pname,author3.keyword, author3.category, author3.public_id as public_id, author.aname as authorName3, author3.authorName1, author3.authorName2
+        from (select author2.*,author.aname as authorName2
+              from (select basic.*,author.aname as authorName1 from basic left join author on basic.autid_one=author.aut_id) as author2
+                    left join author on author2.autid_two=author.aut_id) as author3
+                    left join author on author3.autid_three=author.aut_id where author3.keyword like CONCAT('%',#{keyword},'%')
+                    order by author3.pCreateTime ${order}
+
+    </select>
+
+
+    <select id="getReturnPaperByReviewerIdAndTime" resultType="com.example.demo.entity.reviewerArrangement_reviewer.ReturnPaper">
+        with basic as (
+        select certify.public_id, b.*
+        from (select *
+              from paper
+              where paper_id in (SELECT pap_id FROM certify where rev_one=#{reviewerId} or rev_two=#{reviewerId} or rev_three=#{reviewerId})) as b
+              left join certify on b.paper_id=certify.pap_id
+        )
+
+        select author3.paper_id as papId,author3.pname,author3.keyword, author3.category, author3.public_id as public_id, author.aname as authorName3, author3.authorName1, author3.authorName2
+        from (select author2.*,author.aname as authorName2
+              from (select basic.*,author.aname as authorName1
+                    from basic
+                    left join author on basic.autid_one=author.aut_id) as author2
+                    left join author on author2.autid_two=author.aut_id) as author3
+                    left join author on author3.autid_three=author.aut_id
+                    order by author3.pCreateTime ${order}
+
+    </select>
+
+
+
+
+
+
+    <sql id = "Base_column_list">
+        cer_id, uni_id, pap_id, rev_one, rev_two, rev_three, common_one, common_two, common_three, publicID
+    </sql>
+
+    <update id="updateCertify_one" parameterType="java.lang.String">
+        update certify
+        <set>
+            <if test="common != null">
+                common_one = #{common},
+            </if>
+        </set>
+        where pap_id = #{pap_id}
+    </update>
+
+    <update id="updateCertify_two" parameterType="java.lang.String">
+        update certify
+        <set>
+            <if test="common != null">
+                common_two = #{common},
+            </if>
+        </set>
+        where pap_id = #{pap_id}
+    </update>
+
+    <update id="updateCertify_three" parameterType="java.lang.String">
+        update certify
+        <set>
+            <if test="common != null">
+                common_three = #{common},
+            </if>
+        </set>
+        where pap_id = #{pap_id}
+    </update>
+
+    <select id="getCertify" resultType="com.example.demo.entity.normal.Certify">
+        select * from website.certify where pap_id =  #{pap_id}
+    </select>
+
+
+
+
+</mapper>
