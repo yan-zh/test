@@ -22,7 +22,7 @@
         select * from user where uname =  #{username} and password = #{password}
     </select>
 
-<!--    <insert id="insertUser" parameterType="com.example.demo.entity.normal.User">-->
+<!--    <insert id="insertUser" parameterType="User">-->
 <!--        insert into user-->
 <!--        <trim prefix="(" suffix = ")" suffixOverrides=",">-->
 <!--            <if test=" username != null">-->
@@ -81,6 +81,8 @@
             email,
             tel,
             rname,
+            aut_id,
+            rev_id,
         </trim>
 
         <trim prefix=" values (" suffix = ")" suffixOverrides=",">
@@ -91,6 +93,8 @@
             #{email},
             #{tel},
             #{rname},
+            #{autId},
+            #{revId},
         </trim>
     </insert>
 
@@ -101,6 +105,7 @@
             ins_id,
             tel,
             email,
+            aut_id,
         </trim>
 
         <trim prefix=" values (" suffix = ")" suffixOverrides=",">
@@ -108,6 +113,7 @@
             #{instituteID},
             #{tel},
             #{email},
+            #{autId},
         </trim>
     </insert>
 
@@ -116,14 +122,29 @@
         <trim prefix="(" suffix = ")" suffixOverrides=",">
             rname,
             rev_email,
-            ins_id
+            ins_id,
+            rev_id,
         </trim>
 
         <trim prefix=" values (" suffix = ")" suffixOverrides=",">
             #{uname},
             #{email},
             #{instituteID},
+            #{revId},
         </trim>
     </insert>
+
+    <select id="verifyPassword" resultType="java.lang.Integer">
+        select count(*) from user where uname = #{username} and password = #{password}
+
+    </select>
+
+    <select id="getNofAuthor" resultType="java.lang.Integer">
+        select count(*) from author
+    </select>
+
+    <select id="getNofReviewer" resultType="java.lang.Integer">
+        select count(*) from reviewer
+    </select>
 
 </mapper>

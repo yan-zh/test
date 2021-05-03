@@ -61,7 +61,7 @@
         cer_id, uni_id, pap_id, rev_one, rev_two, rev_three, common_one, common_two, common_three, publicID
     </sql>
 
-    <update id="updateCertify_one" parameterType="java.lang.String">
+    <update id="updateCertify_one" parameterType="com.example.demo.entity.normal.CertifyInsertTemp">
         update certify
         <set>
             <if test="common != null">
@@ -74,7 +74,7 @@
         where pap_id = #{pap_id}
     </update>
 
-    <update id="updateCertify_two" parameterType="java.lang.String">
+    <update id="updateCertify_two" parameterType="com.example.demo.entity.normal.CertifyInsertTemp">
         update certify
         <set>
             <if test="common != null">
@@ -87,7 +87,7 @@
         where pap_id = #{pap_id}
     </update>
 
-    <update id="updateCertify_three" parameterType="java.lang.String">
+    <update id="updateCertify_three" parameterType="com.example.demo.entity.normal.CertifyInsertTemp">
         update certify
         <set>
             <if test="common != null">
@@ -103,6 +103,22 @@
     <select id="getCertify" resultType="com.example.demo.entity.normal.Certify">
         select * from website.certify where pap_id =  #{pap_id}
     </select>
+
+    <update id="insertPublicIdPass" parameterType="java.lang.Integer">
+        update website.certify
+        <set>
+                public_id = "Passed",
+        </set>
+        where cer_id = #{cer_id}
+    </update>
+
+    <update id="insertPublicIdReject" parameterType="java.lang.Integer">
+        update website.certify
+        <set>
+            public_id = "Rejected",
+        </set>
+        where cer_id = #{cer_id}
+    </update>
 
 
 
